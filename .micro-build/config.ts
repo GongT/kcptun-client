@@ -34,19 +34,19 @@ if (!JsonEnv.gfw.hasOwnProperty('shadowsocks')) {
 const kcptun = JsonEnv.gfw.kcptun;
 const shadowsocks = JsonEnv.gfw.shadowsocks;
 
-const args = [
-	'--localaddr', `0.0.0.0:${kcptun.server_port}`,
-	'--remoteaddr', `${shadowsocks.server}:${kcptun.server_port}`,
-	'--mode', '' + kcptun.mode || 'fast3',
-	'--crypt', '' + kcptun.crypt || 'xor',
-	'--key', '' + shadowsocks.password,
-	'--sndwnd', '' + kcptun.sndwnd,
-	'--rcvwnd', '' + kcptun.rcvwnd,
-];
-if (!kcptun.hasOwnProperty('nocomp') || kcptun.nocomp) {
-	args.push('--nocomp');
-}
+Object.assign(kcptun, {
+	localaddr: `0.0.0.0:${kcptun.RemotePort}`,
+	remoteaddr: `${shadowsocks.server}:${kcptun.RemotePort}`,
+	key: `${shadowsocks.password}`,
+});
 
-build.forwardPort(kcptun.server_port, 'tcp').publish(kcptun.server_port);
-build.startupCommand.apply(build, args);
+build.appendDockerFileContent('COPY ./config.json /data/config.json');
+
+build.forwardPort(parseInt(kcptun.RemotePort), 'tcp').publish(parseInt(kcptun.RemotePort));
+build.startupCommand('-c', './config.json');
 build.shellCommand('/go/bin/client');
+
+build.onConfig(() => {
+	const configJson = helper.createTextFile(JSON.stringify(kcptun, null, 4));
+	configJson.save('./config.json');
+});
