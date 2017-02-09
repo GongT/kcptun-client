@@ -1,6 +1,6 @@
-import {MicroBuildHelper} from "./x/microbuild-helper";
-import {MicroBuildConfig, ELabelNames, EPlugins} from "./x/microbuild-config";
-import {JsonEnv} from "../.jsonenv/_current_result";
+import {MicroBuildHelper} from "./.micro-build/x/microbuild-helper";
+import {MicroBuildConfig, ELabelNames, EPlugins} from "./.micro-build/x/microbuild-config";
+import {JsonEnv} from "./.jsonenv/_current_result";
 declare const build: MicroBuildConfig;
 declare const helper: MicroBuildHelper;
 /*
