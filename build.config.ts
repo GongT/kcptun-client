@@ -21,6 +21,7 @@ build.projectName(projectName);
 build.domainName(projectName + '.' + JsonEnv.baseDomainName);
 
 build.isInChina(JsonEnv.gfw.isInChina, JsonEnv.gfw);
+build.forceLocalDns();
 
 build.noDataCopy();
 build.disablePlugin(EPlugins.jenv);
