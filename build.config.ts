@@ -1,5 +1,5 @@
 import {MicroBuildHelper} from "./.micro-build/x/microbuild-helper";
-import {MicroBuildConfig, ELabelNames, EPlugins} from "./.micro-build/x/microbuild-config";
+import {EPlugins, MicroBuildConfig} from "./.micro-build/x/microbuild-config";
 import {JsonEnv} from "./.jsonenv/_current_result";
 declare const build: MicroBuildConfig;
 declare const helper: MicroBuildHelper;
@@ -20,7 +20,7 @@ build.baseImage('xtaci/kcptun', 'latest');
 build.projectName(projectName);
 build.domainName(projectName + '.' + JsonEnv.baseDomainName);
 
-build.isInChina(JsonEnv.gfw.isInChina, JsonEnv.gfw);
+build.isInChina(JsonEnv.gfw.isInChina);
 build.forceLocalDns();
 
 build.noDataCopy();
@@ -38,7 +38,7 @@ const shadowsocks = JsonEnv.gfw.shadowsocks;
 Object.assign(kcptun, {
 	localaddr: `0.0.0.0:${kcptun.RemotePort}`,
 	remoteaddr: `${shadowsocks.server}:${kcptun.RemotePort}`,
-	key: `${shadowsocks.password}`,
+	key: `${kcptun.password || shadowsocks.password}`,
 });
 
 build.appendDockerFileContent('COPY ./config.json /data/config.json');
