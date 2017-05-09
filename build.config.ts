@@ -1,5 +1,5 @@
 import {MicroBuildHelper} from "./.micro-build/x/microbuild-helper";
-import {MicroBuildConfig, ELabelNames, EPlugins} from "./.micro-build/x/microbuild-config";
+import {EPlugins, MicroBuildConfig} from "./.micro-build/x/microbuild-config";
 import {JsonEnv} from "./.jsonenv/_current_result";
 declare const build: MicroBuildConfig;
 declare const helper: MicroBuildHelper;
@@ -43,7 +43,8 @@ Object.assign(kcptun, {
 
 build.appendDockerFileContent('COPY ./config.json /data/config.json');
 
-build.forwardPort(parseInt(kcptun.RemotePort), 'tcp').publish(parseInt(kcptun.RemotePort));
+build.forwardPort(parseInt(kcptun.RemotePort), 'tcp'); // .publish(parseInt(kcptun.RemotePort));
+build.dockerRunArgument('--sysctl=net.ipv6.conf.all.disable_ipv6=1');
 build.startupCommand('-c', './config.json');
 build.shellCommand('/go/bin/client');
 
