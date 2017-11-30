@@ -10,6 +10,8 @@ jspm_packages
 npm-debug.log*
 coverage/
 typings
+screen.*
+package-lock.json
 *.md
 Dockerfile
 *.Dockerfile
@@ -21,4 +23,5 @@ build.config.ts
 !.micro-build/docker/npm-install
 !.micro-build/docker/package-json
 !.micro-build/docker/plugins
+!.babelrc
 ### <<< END MICRO-BUILD SECTION

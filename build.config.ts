@@ -1,11 +1,12 @@
+/// <reference path="./.jsonenv/_current_result.json.d.ts"/>
+import {JsonEnv} from "@gongt/jenv-data";
+import {EPlugins, MicroBuildConfig} from "./.micro-build/x/microbuild-config";
 import {MicroBuildHelper} from "./.micro-build/x/microbuild-helper";
-import {MicroBuildConfig, ELabelNames, EPlugins} from "./.micro-build/x/microbuild-config";
-import {JsonEnv} from "./.jsonenv/_current_result";
 declare const build: MicroBuildConfig;
 declare const helper: MicroBuildHelper;
 /*
  +==================================+
- | <**DON'T EDIT ABOVE THIS LINE**> |
+ |  **DON'T EDIT ABOVE THIS LINE**  |
  | THIS IS A PLAIN JAVASCRIPT FILE  |
  |   NOT A TYPESCRIPT OR ES6 FILE   |
  |    ES6 FEATURES NOT AVAILABLE    |
@@ -46,7 +47,7 @@ build.appendDockerFileContent('COPY ./config.json /data/config.json');
 build.forwardPort(parseInt(kcptun.RemotePort), 'tcp'); // .publish(parseInt(kcptun.RemotePort));
 build.dockerRunArgument('--sysctl=net.ipv6.conf.all.disable_ipv6=1');
 build.startupCommand('-c', './config.json');
-build.shellCommand('/go/bin/client');
+build.shellCommand('/bin/client');
 
 build.onConfig(() => {
 	const configJson = helper.createTextFile(JSON.stringify(kcptun, null, 4));

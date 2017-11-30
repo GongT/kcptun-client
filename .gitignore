@@ -10,7 +10,10 @@ jspm_packages
 npm-debug.log*
 coverage/
 typings
+screen.*
+package-lock.json
 !.*ignore
 !.gitinclude
+!.babelrc
 config.json
 ### <<< END MICRO-BUILD SECTION
