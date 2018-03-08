@@ -37,14 +37,14 @@ const kcptun = JsonEnv.gfw.kcptun;
 const shadowsocks = JsonEnv.gfw.shadowsocks;
 
 Object.assign(kcptun, {
-	localaddr: `0.0.0.0:${kcptun.RemotePort}`,
+	localaddr: `0.0.0.0:6060`,
 	remoteaddr: `${shadowsocks.server}:${kcptun.RemotePort}`,
 	key: `${kcptun.password || shadowsocks.password}`,
 });
 
 build.appendDockerFileContent('COPY ./config.json /data/config.json');
 
-build.forwardPort(parseInt(kcptun.RemotePort), 'tcp'); // .publish(parseInt(kcptun.RemotePort));
+build.forwardPort(6060, 'tcp').publish(6060); // .publish(parseInt(kcptun.RemotePort));
 build.dockerRunArgument('--sysctl=net.ipv6.conf.all.disable_ipv6=1');
 build.startupCommand('-c', './config.json');
 build.shellCommand('/bin/client');
